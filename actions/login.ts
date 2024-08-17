@@ -45,9 +45,9 @@ export const login = async (
     //   verificationToken.token
     // );
 
-    // sent post request to send_mail route `api/send_mail` to send email
+    // sent post request to send-mail route `api/send-mail` to send email
     const response = await fetch(
-      `${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`,
+      `${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`,
       {
         method: "POST",
         headers: {
@@ -56,7 +56,7 @@ export const login = async (
         body: JSON.stringify({
           to: existingUser.email,
           subject: "Confirm your email",
-          text: `Click here to confirm your email: ${verificationToken.token}`,
+          html: `<p>Click <a href="${process.env.NEXTAUTH_URL}/auth/new-verification?token=${verificationToken.token}">here</a> to confirm your email.</p>`,
         }),
       }
     );
@@ -111,9 +111,9 @@ export const login = async (
       const twoFactorToken = await generateTwoFactorToken(existingUser.email);
       // await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
 
-      // sent post request to send_mail route `api/send_mail` to send email
+      // sent post request to send-mail route `api/send-mail` to send email
       const response = await fetch(
-        `${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`,
+        `${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`,
         {
           method: "POST",
           headers: {
@@ -122,7 +122,8 @@ export const login = async (
           body: JSON.stringify({
             to: existingUser.email,
             subject: "2FA Code",
-            text: `Your 2FA code: ${twoFactorToken.token}`,
+            // text: `Your 2FA code: ${twoFactorToken.token}`,
+            html: `<p>Your 2FA code: ${twoFactorToken.token}</p>`,
           }),
         }
       );

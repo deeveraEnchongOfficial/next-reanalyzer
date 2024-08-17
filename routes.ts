@@ -7,7 +7,7 @@ export const publicRoutes = [
   "/", 
   "/auth/new-verification",
   "realestateapi",
-  "send_mail"
+  "send-mail"
 ];
 
 /**
@@ -16,7 +16,7 @@ export const publicRoutes = [
  */
 export const publicApis = [
   "realestateapi",
-  "send_mail"
+  "send-mail"
 ];
 
 /**

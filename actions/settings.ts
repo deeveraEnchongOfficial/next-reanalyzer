@@ -43,9 +43,9 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     //   verificationToken.token
     // );
 
-    // sent post request to send_mail route `api/send_mail` to send email
+    // sent post request to send-mail route `api/send-mail` to send email
     const response = await fetch(
-      `${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`,
+      `${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`,
       {
         method: "POST",
         headers: {
@@ -54,7 +54,8 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
         body: JSON.stringify({
           to: values.email,
           subject: "Confirm your email",
-          text: `Click here to confirm your email: ${verificationToken.token}`,
+          // text: `Click here to confirm your email: ${verificationToken.token}`,
+          html: `<p>Click <a href="${process.env.NEXTAUTH_URL}/auth/new-verification?token=${verificationToken.token}">here</a> to confirm your email.</p>`,
         }),
       }
     );

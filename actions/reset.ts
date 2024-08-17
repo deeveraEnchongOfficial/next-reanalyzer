@@ -28,9 +28,9 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
   //   passwordResetToken.token
   // );
 
-  // sent post request to send_mail route `api/send_mail` to send email
+  // sent post request to send-mail route `api/send-mail` to send email
   const response = await fetch(
-    `${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`,
+    `${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`,
     {
       method: "POST",
       headers: {
@@ -39,7 +39,7 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
       body: JSON.stringify({
         to: email,
         subject: "Reset your password",
-        text: `Click here to reset your password: ${passwordResetToken.token}`,
+        html: `<p>Click <a href="${process.env.NEXTAUTH_URL}/auth/reset-password?token=${passwordResetToken.token}">here</a> to reset your password.</p>`,
       }),
     }
   );
