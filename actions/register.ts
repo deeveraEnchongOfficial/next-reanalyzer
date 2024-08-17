@@ -34,10 +34,12 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   });
 
   const verificationToken = await generateVerificationToken(email);
+  const confirmLink = `https://next-reanalyzer.vercel.app/api/send_mail/auth/new-verification?token=${verificationToken}`;
   // await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   // sent post request to send_mail route `api/send_mail` to send email
-  // console.log(`${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`);
+  console.log(`${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`);
+  console.log(`${process.env.NEXTAUTH_URL}/auth/new-verification?token=${verificationToken}`);
   const response = await fetch("https://next-reanalyzer.vercel.app/api/send_mail", {
     method: "POST",
     headers: {
@@ -46,7 +48,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     body: JSON.stringify({
       to: email,
       subject: "Confirm your email",
-      text: `Click here to confirm your email: ${verificationToken.token}`,
+      html: `<p>Click <a href="${confirmLink}">here</a> to confirm your email.</p>`,
     }),
   });
 

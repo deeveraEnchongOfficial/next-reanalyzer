@@ -17,7 +17,7 @@ import { FaUserCircle } from "react-icons/fa";
 import LoginButton from "./auth/login-button";
 
 const navbarItems = [
-  { id: 1, to: "/", label: "Sell1", prefetch: false },
+  { id: 1, to: "/", label: "Sell", prefetch: false },
   { id: 2, to: "/", label: "Advertise", prefetch: false },
 ];
 
