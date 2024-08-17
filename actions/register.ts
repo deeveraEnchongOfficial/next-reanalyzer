@@ -34,7 +34,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   });
 
   const verificationToken = await generateVerificationToken(email);
-  const confirmLink = `https://next-reanalyzer.vercel.app/api/send_mail/auth/new-verification?token=${verificationToken}`;
+  const confirmLink = `https://next-reanalyzer.vercel.app/auth/new-verification?token=${verificationToken}`;
   // await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   // sent post request to send_mail route `api/send_mail` to send email
