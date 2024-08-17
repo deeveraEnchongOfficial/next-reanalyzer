@@ -45,7 +45,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
 
     // sent post request to send-mail route `api/send-mail` to send email
     const response = await fetch(
-      `${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/send-mail`,
       {
         method: "POST",
         headers: {

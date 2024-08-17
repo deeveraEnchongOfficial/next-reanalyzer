@@ -40,7 +40,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   // sent post request to send-mail route `api/send-mail` to send email
   // console.log(`${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`);
   // console.log(`${process.env.NEXTAUTH_URL}/auth/new-verification?token=${verificationToken}`);
-  const response = await fetch(`${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-mail`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
