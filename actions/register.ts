@@ -37,7 +37,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   // await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   // sent post request to send_mail route `api/send_mail` to send email
-  const response = await fetch(`${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`, {
+  // console.log(`${process.env.REAL_STATE_BASE_API_URL}/api/send_mail`);
+  const response = await fetch("$https://next-reanalyzer.vercel.app/api/send_mail", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
