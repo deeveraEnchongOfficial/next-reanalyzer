@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { to, subject, text } = await request.json();
+    const { to, subject, html } = await request.json();
 
-    if (!to || !subject || !text) {
+    if (!to || !subject || !html) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
       from: '"No-Reply" <sparkles.sweet14344@gmail.com', // Replace with your email and name
       to,
       subject,
-      html: `<p>${text}</p>`,
+      html,
     };
 
     await transporter.sendMail(mailOptions);
