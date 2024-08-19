@@ -16,10 +16,10 @@ const MapsWrapper: React.FC<MapsWrapperProps> = ({
   zoom = 10,
 }) => {
   return (
-    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+    <APIProvider apiKey={`AIzaSyCxldtEtqbjYcHc3NfjcEAI4zmiUSlD2M4`}>
       <Map
         className="rounded-xl h-full w-full"
-        mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID}
+        mapId={`17a19dedb84f7db1`}
         defaultCenter={center}
         defaultZoom={zoom}
         gestureHandling={"greedy"}
