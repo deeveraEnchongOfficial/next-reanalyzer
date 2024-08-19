@@ -7,7 +7,6 @@ import { RegisterSchema } from "@/schemas";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
-// import { sendVerificationEmail } from "@/lib/mailer";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
@@ -34,12 +33,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   });
 
   const verificationToken = await generateVerificationToken(email);
-  const confirmLink = `https://next-reanalyzer.vercel.app/auth/new-verification?token=${verificationToken.token}`;
-  // await sendVerificationEmail(verificationToken.email, verificationToken.token);
-
-  // sent post request to send-mail route `api/send-mail` to send email
-  // console.log(`${process.env.REAL_STATE_BASE_API_URL}/api/send-mail`);
-  // console.log(`${process.env.NEXTAUTH_URL}/auth/new-verification?token=${verificationToken}`);
+  const confirmLink = `${process.env.NEXT_PUBLIC_APP_URL}/auth/new-verification?token=${verificationToken.token}`;
   const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/send-mail`, {
     method: "POST",
     headers: {

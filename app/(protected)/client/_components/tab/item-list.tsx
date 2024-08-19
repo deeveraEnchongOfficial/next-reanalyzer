@@ -12,7 +12,7 @@ type Chip = {
   sign?: "check" | "minus" | "x" | string | undefined;
 };
 
-interface TabPriceItem {
+interface ListItem {
   id: number | string;
   label: string;
   value?: number;
@@ -21,14 +21,14 @@ interface TabPriceItem {
   chip?: Chip;
 }
 
-interface PriceListProps {
-  priceList: TabPriceItem[];
+interface ItemListProps {
+  itemList: ListItem[];
 }
 
-const PriceList: React.FC<PriceListProps> = ({ priceList }) => {
+const ItemList: React.FC<ItemListProps> = ({ itemList }) => {
   return (
     <div className="grid grid-cols-2 xl:grid-cols-3 gap-1 lg:gap-4 w-full mt-2">
-      {priceList.map((item) => (
+      {itemList.map((item) => (
         <div className="flex justify-between flex-col gap-1" key={item.id}>
           <p className="font-light shrink-0">{item.label}</p>
           <div className="text-base md:text-xl lg:text-2xl font-medium flex gap-1 flex-col lg:flex-row">
@@ -64,4 +64,4 @@ const PriceList: React.FC<PriceListProps> = ({ priceList }) => {
   );
 };
 
-export default PriceList;
+export default ItemList;

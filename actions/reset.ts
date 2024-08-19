@@ -4,7 +4,6 @@ import * as z from "zod";
 
 import { ResetSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
-// import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
@@ -23,12 +22,6 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
   }
 
   const passwordResetToken = await generatePasswordResetToken(email);
-  // await sendPasswordResetEmail(
-  //   passwordResetToken.email,
-  //   passwordResetToken.token
-  // );
-
-  // sent post request to send-mail route `api/send-mail` to send email
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/send-mail`,
     {
@@ -39,7 +32,7 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
       body: JSON.stringify({
         to: email,
         subject: "Reset your password",
-        html: `<p>Click <a href="${process.env.NEXTAUTH_URL}/auth/reset-password?token=${passwordResetToken.token}">here</a> to reset your password.</p>`,
+        html: `<p>Click <a href="${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${passwordResetToken.token}">here</a> to reset your password.</p>`,
       }),
     }
   );

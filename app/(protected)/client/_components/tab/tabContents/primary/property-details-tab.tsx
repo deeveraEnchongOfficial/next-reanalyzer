@@ -20,7 +20,7 @@ const tagList = [
 
 const PropertyDetailsTab = () => {
   return (
-    <div className="bg-white p-4 mt-4 rounded-xl">
+    <div className="bg-white p-4 rounded-xl">
       <Header header="Property Details" as="h1" />
       <p className="font-bold">MLS Description *if available</p>
       <p className="font-bold">Neighborhood*</p>

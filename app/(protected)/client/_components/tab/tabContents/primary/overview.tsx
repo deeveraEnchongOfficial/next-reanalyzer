@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import PriceList from "../../price-list";
+import ItemList from "../../item-list";
 import { Button } from "@/components/ui/button";
 import { BookmarkIcon, HomeIcon } from "@radix-ui/react-icons";
 import { LuBath, LuBed } from "react-icons/lu";
@@ -92,7 +92,7 @@ const Overview = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row xl:flex-col">
-            <PriceList priceList={priceListItems} />
+            <ItemList itemList={priceListItems} />
             <div className="w-full">
               <Divider />
               <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">

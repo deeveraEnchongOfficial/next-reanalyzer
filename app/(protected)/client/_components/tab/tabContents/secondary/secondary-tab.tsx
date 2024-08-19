@@ -33,12 +33,14 @@ const SecondaryTab: React.FC<SecondaryTabProps> = ({
               onChangeActive={setActivePrimaryTab}
               label={item.label}
               key={item.id}
+              disabled={item.disabled}
             />
           ) : (
             <TabItem
               onChangeActive={setActivePrimaryTab}
               label={item.label}
               key={item.id}
+              disabled={item.disabled}
             />
           )
         )}

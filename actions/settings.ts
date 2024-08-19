@@ -8,7 +8,6 @@ import { SettingsSchema } from "@/schemas";
 import { getUserByEmail, getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 import { generateVerificationToken } from "@/lib/tokens";
-// import { sendVerificationEmail } from "@/lib/mailer";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
@@ -38,12 +37,6 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     }
 
     const verificationToken = await generateVerificationToken(values.email);
-    // await sendVerificationEmail(
-    //   verificationToken.email,
-    //   verificationToken.token
-    // );
-
-    // sent post request to send-mail route `api/send-mail` to send email
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/send-mail`,
       {
@@ -54,7 +47,6 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
         body: JSON.stringify({
           to: values.email,
           subject: "Confirm your email",
-          // text: `Click here to confirm your email: ${verificationToken.token}`,
           html: `<p>Click <a href="${process.env.NEXTAUTH_URL}/auth/new-verification?token=${verificationToken.token}">here</a> to confirm your email.</p>`,
         }),
       }

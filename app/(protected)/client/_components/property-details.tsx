@@ -10,12 +10,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import PropertyHistory from "./property/property-history";
+import TableComponent from "./table-component";
 
 const tagList = [
   { id: 1, content: "Tag 1" },
   { id: 2, content: "Tag 2" },
   { id: 3, content: "Tag 3" },
   { id: 4, content: "Tag 4" },
+];
+
+const headers = ["School", "Distance", "Rating"];
+const rows = [
+  ["INV001", "Paid", "Credit Card"],
+  ["INV002", "Pending", "Paypal"],
+  ["INV003", "Failed", "Bank Transfer"],
 ];
 
 const PropertyDetails = () => {
@@ -35,22 +43,7 @@ const PropertyDetails = () => {
       <p className="font-bold mt-4">Tags**</p>
       <TagWrapper tagList={tagList} />
       <p className="font-bold mt-4">School*</p>
-      <Table className="p-4">
-        <TableHeader className="p-4">
-          <TableRow className="bg-primary hover:bg-primary text-white">
-            <TableHead className="text-lg text-white">School</TableHead>
-            <TableHead className="text-lg text-white">Distance</TableHead>
-            <TableHead className="text-lg text-white">Rating</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <TableComponent headers={headers} rows={rows} />
       <p className="font-bold mt-4">History*</p>
       <PropertyHistory />
     </div>

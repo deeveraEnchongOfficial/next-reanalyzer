@@ -8,7 +8,6 @@ import { signIn } from "@/auth";
 import { LoginSchema } from "@/schemas";
 import { getUserByEmail } from "@/data/user";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
-// import { sendVerificationEmail, sendTwoFactorTokenEmail } from "@/lib/mailer";
 import {
   generateVerificationToken,
   generateTwoFactorToken,
@@ -40,12 +39,6 @@ export const login = async (
       existingUser.email
     );
 
-    // await sendVerificationEmail(
-    //   verificationToken.email,
-    //   verificationToken.token
-    // );
-
-    // sent post request to send-mail route `api/send-mail` to send email
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/send-mail`,
       {
@@ -56,7 +49,7 @@ export const login = async (
         body: JSON.stringify({
           to: existingUser.email,
           subject: "Confirm your email",
-          html: `<p>Click <a href="${process.env.NEXTAUTH_URL}/auth/new-verification?token=${verificationToken.token}">here</a> to confirm your email.</p>`,
+          html: `<p>Click <a href="${process.env.NEXT_PUBLIC_APP_URL}/auth/new-verification?token=${verificationToken.token}">here</a> to confirm your email.</p>`,
         }),
       }
     );
@@ -109,9 +102,6 @@ export const login = async (
       });
     } else {
       const twoFactorToken = await generateTwoFactorToken(existingUser.email);
-      // await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token);
-
-      // sent post request to send-mail route `api/send-mail` to send email
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_APP_URL}/api/send-mail`,
         {
@@ -122,7 +112,6 @@ export const login = async (
           body: JSON.stringify({
             to: existingUser.email,
             subject: "2FA Code",
-            // text: `Your 2FA code: ${twoFactorToken.token}`,
             html: `<p>Your 2FA code: ${twoFactorToken.token}</p>`,
           }),
         }

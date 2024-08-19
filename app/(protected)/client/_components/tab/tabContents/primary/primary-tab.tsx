@@ -33,12 +33,14 @@ const PrimaryTab: React.FC<PrimaryTabProps> = ({
               onChangeActive={setActivePrimaryTab}
               label={item.label}
               key={item.id}
+              disabled={item.disabled}
             />
           ) : (
             <TabItem
               onChangeActive={setActivePrimaryTab}
               label={item.label}
               key={item.id}
+              disabled={item.disabled}
             />
           )
         )}
@@ -46,7 +48,11 @@ const PrimaryTab: React.FC<PrimaryTabProps> = ({
       {/* items */}
       {tabList.map((item) => (
         <div key={item.id}>
-          {item.label === activeTab ? <div>{item.component}</div> : <></>}
+          {item.label === activeTab && !item.disabled ? (
+            <div>{item.component}</div>
+          ) : (
+            <></>
+          )}
         </div>
       ))}
     </div>

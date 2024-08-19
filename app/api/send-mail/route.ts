@@ -14,13 +14,13 @@ export async function POST(request: Request) {
       port: 587,
       secure: false,
       auth: {
-        user: process.env.SMTP_USER || 'sparkles.sweet14344@gmail.com', // Replace with your email
-        pass: process.env.SMTP_PASS || 'nlivrwbfdvfkvcjn', // Replace with your email password
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: '"No-Reply" <sparkles.sweet14344@gmail.com', // Replace with your email and name
+      from: `"No-Reply" <${process.env.SMTP_USER}>`,
       to,
       subject,
       html,

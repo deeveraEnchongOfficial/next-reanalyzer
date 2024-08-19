@@ -19,6 +19,7 @@ const ImageWrapper: React.FC<ImageWrapper> = ({ imageList }) => {
         alt={imageList[0].alt}
         width={300}
         height={400}
+        priority
         className="rounded-lg object-cover w-full aspect-[16/10] hover:opacity-90"
       />
       <div className="grid grid-cols-3 gap-2">

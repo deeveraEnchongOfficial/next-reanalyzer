@@ -1,4 +1,4 @@
-export const currencySymbols: { [key: string]: string } = {
+const currencySymbols: { [key: string]: string } = {
   USD: "$", // US Dollar
   EUR: "€", // Euro
   GBP: "£", // British Pound Sterling
@@ -11,7 +11,7 @@ export const currencySymbols: { [key: string]: string } = {
   RUB: "₽", // Russian Ruble
   BRL: "R$", // Brazilian Real
   ZAR: "R", // South African Rand
-};
+} as const;
 
 /**
  * Function to get the currency symbol based on the currency code

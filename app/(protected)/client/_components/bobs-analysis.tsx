@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "./header";
+import Header from "@/app/(protected)/client/_components/header";
 
 const BobsAnalysis = () => {
   return (
-    <div className="bg-white p-4 mt-4 rounded-xl">
+    <div className="bg-white mt-4 rounded-xl">
       <Header header="Bob's Analysis" />
       <p>
         this property is a good invesment because.. <br />

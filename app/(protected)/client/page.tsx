@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons/";
 
@@ -18,17 +18,16 @@ import FixAndFlip from "./_components/tab/tabContents/secondary/fix-and-flip";
 import BRR from "./_components/tab/tabContents/secondary/brr";
 import HouseHack from "./_components/tab/tabContents/secondary/house-hack";
 
-// bobs analysis
-import BobsAnalysis from "./_components/bobs-analysis";
+// ai-chat
+import AIConversation from "./_components/chat/ai-conversation";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
+import { PaperPlaneIcon, MinusIcon, CornersIcon } from "@radix-ui/react-icons";
 
-// property details
-import PropertyDetails from "./_components/property-details";
-
-// maps and market
-import MapsAndMarket from "./_components/maps-and-market";
-
-// ai
-import AIConversation from "./_components/ai/ai-conversation";
+import ChatWrapper from "./_components/chat/chat-wrapper";
+import ChatItem from "./_components/chat/chat-item";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -95,6 +94,38 @@ const secondaryTabList = [
   },
 ];
 
+const conversationList = [
+  {
+    id: uuidv4(),
+    name: "AI",
+    message: "Hello! How can I assist you today?",
+    avatarSrc: "",
+    tag: "ai",
+  },
+  {
+    id: uuidv4(),
+    name: "U",
+    message: "I'd like to learn more about your product features.",
+    avatarSrc: "",
+    tag: "user",
+  },
+  {
+    id: uuidv4(),
+    name: "AI",
+    message:
+      "Certainly! Our product offers a range of features to help streamline your workflow. Some key highlights include...",
+    avatarSrc: "",
+    tag: "ai",
+  },
+  {
+    id: uuidv4(),
+    name: "U",
+    message: "That sounds very helpful. Can you tell me more about pricing?",
+    avatarSrc: "",
+    tag: "user",
+  },
+];
+
 const ClientRootPage = () => {
   const [activePrimaryTab, setActivePrimaryTab] = useState(
     primaryTabList[0].label
@@ -102,6 +133,24 @@ const ClientRootPage = () => {
   const [activeSecondaryTab, setActiveSecondaryTab] = useState(
     secondaryTabList[0].label
   );
+
+  const [showModalVersion, setShowModalVersion] = useState(false);
+  const [minimize, setMinimize] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth < 1025);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="mx-4 pb-4">
@@ -118,12 +167,40 @@ const ClientRootPage = () => {
 
       <div className="flex gap-4">
         {/* left */}
-        <div className="relative basis-1/4 shrink-0 hidden lg:block self-start">
-          <AIConversation />
+        <div
+          className={`relative ${
+            isMobile ? "basis-0" : "basis-1/4"
+          }  shrink-0 self-start`}
+        >
+          {isMobile || showModalVersion || minimize ? (
+            <AIConversation
+              conversationList={conversationList}
+              setMinimize={setMinimize}
+              minimize={minimize}
+              showModalVersion={showModalVersion}
+              setShowModalVersion={setShowModalVersion}
+            />
+          ) : (
+            <ChatWrapper
+              variant="static"
+              setMinimize={setMinimize}
+              onHandleShowModal={setShowModalVersion}
+              onShowModal={showModalVersion}
+            >
+              {conversationList.map((item) => (
+                <ChatItem
+                  key={item.id}
+                  tag={item.tag}
+                  message={item.message}
+                  name={item.name}
+                  avatarSrc={item.avatarSrc}
+                />
+              ))}
+            </ChatWrapper>
+          )}
         </div>
 
         {/* right */}
-
         <div className="w-full">
           <PrimaryTab
             tabList={primaryTabList}
@@ -137,15 +214,6 @@ const ClientRootPage = () => {
             tabList={secondaryTabList}
             className="mt-4"
           />
-
-          {/* bobs analysis */}
-          <BobsAnalysis />
-
-          {/* property details */}
-          <PropertyDetails />
-
-          {/* maps and market */}
-          <MapsAndMarket />
         </div>
       </div>
     </div>

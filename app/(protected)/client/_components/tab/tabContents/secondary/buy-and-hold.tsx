@@ -1,5 +1,7 @@
 import React from "react";
-import PriceList from "../../price-list";
+import ItemList from "../../item-list";
+import BobsAnalysis from "../../../bobs-analysis";
+import Divider from "@/components/divider";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -53,7 +55,9 @@ const BuyAndHold = () => {
   return (
     <div className="bg-white p-4 rounded-xl">
       <h1 className="font-semibold text-2xl">Quick Analysis</h1>
-      <PriceList priceList={quickAnalysisList} />
+      <ItemList itemList={quickAnalysisList} />
+      <Divider />
+      <BobsAnalysis />
     </div>
   );
 };
