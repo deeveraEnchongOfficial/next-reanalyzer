@@ -23,6 +23,11 @@ export default auth(async (req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isPublicApi = publicApis.some((route) => nextUrl.pathname.includes(route));
 
+  // ** Temporary commented out for now the porpose is to able to browse the superadmin to all routes
+  // if (role === UserRole.SUPERADMIN && !isAdminRoute) {
+  //   return Response.redirect(new URL("/administrator/users", nextUrl));
+  // }
+  
   if (role === UserRole.USER && isAdminRoute) {
     return Response.redirect(new URL("/", nextUrl));
   }

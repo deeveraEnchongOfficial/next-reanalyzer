@@ -15,6 +15,7 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
+        "3xl": "1600px",
       },
     },
     extend: {
@@ -25,7 +26,6 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          // DEFAULT: "hsl(var(--primary))",
           DEFAULT: "#1c8cdc",
           foreground: "hsl(var(--primary-foreground))",
         },
@@ -54,6 +54,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         client: "[#f1f5f9]",
+        "light-blue": "#CAE9FF",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -62,12 +63,20 @@ const config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
         },
       },
       animation: {

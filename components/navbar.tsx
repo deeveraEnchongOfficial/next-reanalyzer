@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import NavItem from "./nav-item";
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa";
+import { LogoutButton } from "./auth/logout-button";
+import Image from "next/image";
 
 import LoginButton from "./auth/login-button";
 
@@ -25,7 +27,7 @@ const Navbar = () => {
   const auth = useSession();
 
   return (
-    <div className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+    <div className="flex h-12 lg:h-16 items-center px-2 lg:px-24 shadow-sm border">
       <Sheet>
         <div className="flex items-center gap-4 w-full lg:w-0">
           <SheetTrigger asChild>
@@ -39,7 +41,7 @@ const Navbar = () => {
             </Button>
           </SheetTrigger>
           {/* <NavItem variant="logo" /> */}
-          <Link href="/client" className="w-full block lg:hidden" prefetch={false}>
+          <Link href="/" className="w-full block lg:hidden" prefetch={false}>
             <h1 className="text-lg font-semibold">ReanalyzeAI</h1>
           </Link>
           <LoginButton>
@@ -70,10 +72,19 @@ const Navbar = () => {
       </Sheet>
 
       {/* logo */}
-      <NavItem className="font-semibold text-xl hidden lg:block">
-        ReanalyzerAI
+      <NavItem
+        navItem={{ to: "/", label: "", prefetch: false }}
+        className="font-semibold text-xl hidden lg:flex py-7"
+      >
+        <Image
+          src="/images/logo.svg"
+          className="w-9 h-9 object-contain object-center"
+          width="0"
+          height="0"
+          sizes="100%"
+          alt="logo image"
+        />
       </NavItem>
-
       {/* desktop */}
       <nav className="ml-auto hidden lg:flex gap-6">
         {navbarItems.map((item, index) => (
@@ -84,12 +95,16 @@ const Navbar = () => {
       </nav>
 
       <div className="hidden lg:flex gap-6 mx-8">
-        {auth.status === "unauthenticated" && (
+        {auth.status === "unauthenticated" ? (
           <LoginButton mode="modal" asChild>
-            <Button variant="ghost" size="lg">
-              Sign in
-            </Button>
+            <Button variant="ghost">Sign in</Button>
           </LoginButton>
+        ) : (
+          <LogoutButton>
+            <Button className="hover:bg-gray-100" variant="ghost">
+              Logout
+            </Button>
+          </LogoutButton>
         )}
       </div>
     </div>

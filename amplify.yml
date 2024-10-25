@@ -1,0 +1,47 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci --cache .npm --prefer-offline
+    build:
+      commands:
+        - echo "REAL_STATE_API_KEY=$REAL_STATE_API_KEY" > .env
+        - echo "REAL_STATE_BASE_API_URL=$REAL_STATE_BASE_API_URL" >> .env
+        - echo "DATABASE_URL=$DATABASE_URL" >> .env
+        - echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env
+        - echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env
+        - echo "GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID" >> .env
+        - echo "GITHUB_CLIENT_SECRET=$GITHUB_CLIENT_SECRET" >> .env
+        - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+        - echo "AUTH_TRUST_HOST=$AUTH_TRUST_HOST" >> .env
+        - echo "AUTH_SECRET=$AUTH_SECRET" >> .env
+        - echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env
+        - echo "AUTH_CLIENT_SECRET=$AUTH_CLIENT_SECRET" >> .env
+        - echo "AUTH_CLIENT_ID=$AUTH_CLIENT_ID" >> .env
+        - echo "NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL" >> .env
+        - echo "SMTP_HOST=$SMTP_HOST" >> .env
+        - echo "SMTP_PORT=$SMTP_PORT" >> .env
+        - echo "SMTP_SECURE=$SMTP_SECURE" >> .env
+        - echo "SMTP_USER=$SMTP_USER" >> .env
+        - echo "SMTP_PASSWORD=$SMTP_PASSWORD" >> .env
+        - echo "REDIS_URL=$REDIS_URL" >> .env
+        - echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=$NEXT_PUBLIC_GOOGLE_MAPS_API_KEY" >> .env
+        - echo "NEXT_PUBLIC_GOOGLE_MAPS_ID=$NEXT_PUBLIC_GOOGLE_MAPS_ID" >> .env
+        - echo "NEXT_PUBLIC_GOOGLE_STREET_VIEW_API_KEY=$NEXT_PUBLIC_GOOGLE_STREET_VIEW_API_KEY" >> .env
+        - echo "NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=$NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN" >> .env
+        - echo "NEXT_PUBLIC_GOOGLE_PLACES_API_KEY=$NEXT_PUBLIC_GOOGLE_PLACES_API_KEY" >> .env
+        - echo "RENTCAST_API_KEY=$RENTCAST_API_KEY" >> .env
+        - npm run build
+    postBuild:
+      commands:
+        - npx prisma migrate deploy
+        - npx prisma generate
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - .next/cache/**/*
+      - .npm/**/*

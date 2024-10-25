@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FormError } from "@/components/form-error";
-import { FormSucess } from "@/components/form-sucess";
+import { FormSuccess } from "@/components/form-sucess";
 
 const SettingsPage = () => {
   const [error, setError] = useState<string | undefined>();
@@ -211,7 +211,7 @@ const SettingsPage = () => {
               )}
             </div>
             <FormError message={error} />
-            <FormSucess message={success} />
+            <FormSuccess message={success} />
             <Button type="submit" disabled={isPending}>
               Save
             </Button>

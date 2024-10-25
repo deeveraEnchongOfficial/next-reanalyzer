@@ -1,59 +1,74 @@
 "use server";
 
-import { cache } from 'react';
-import * as z from "zod";
-import { PropertySearchSchema } from "@/schemas";
+import { createProperty, getProperty, updateProperty } from "./property";
+import { getOrSetCache } from "@/helpers/cache";
+import { postData } from "@/helpers/apiHelpers";
+import { CACHE_EXPIRATION, CACHE_PREFIX } from "@/helpers/constants";
+import { getCacheKey, sortObjectByKeys } from "@/helpers/genericHelpers";
+import { Property } from "@/types/property";
 
-export const propertySearch = cache(async (
-  values: z.infer<typeof PropertySearchSchema>
-): Promise<{ success?: any; error?: string }> => {
-  // Validate the input using Zod schema
-  const validatedFields = PropertySearchSchema.safeParse(values);
+const apiKey = process.env.REAL_STATE_API_KEY;
+const apiUrl = process.env.REAL_STATE_BASE_API_URL;
 
-  if (!validatedFields.success) {
-    return { error: validatedFields.error.errors[0].message };
-  }
-
-  const { id } = validatedFields.data;
-
-  // Retrieve environment variables
-  const apiKey = process.env.REAL_STATE_API_KEY;
-  const apiUrl = process.env.REAL_STATE_BASE_API_URL;
-
-  if (!apiKey || !apiUrl) {
-    return { error: "API configuration is missing!" };
-  }
-
+export const propertySearch = async (params: {
+  id?: string;
+  size?: number;
+  city?: string;
+  state?: string;
+}): Promise<{ success?: any; error?: string }> => {
   try {
-    // Prepare the payload for the API request
-    // const payload = {
-    //   city,
-    //   searchType,
-    //   state,
-    //   title,
-    // };
-
-    // Send the API request
-    const response = await fetch(`${apiUrl}/v2/PropertySearch`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
+    const cacheKey = getCacheKey(params);
+    const response = await getOrSetCache(
+      `${CACHE_PREFIX.propertyList}:${cacheKey}`,
+      async () => {
+        try {
+          const headers: Record<string, string> = {
+            "x-api-key": apiKey as string,
+          };
+          const response = await postData(
+            `PropertySearch`,
+            `${apiUrl}/v2`,
+            JSON.stringify(params),
+            headers
+          );
+          return response;
+        } catch (error) {
+          throw new Error(error?.toString());
+        }
       },
-      body: JSON.stringify({id}),
-    });
+      CACHE_EXPIRATION.month
+    );
 
-    if (!response.ok) {
-      // Handle non-200 HTTP responses
-      const errorMessage = await response.text();
-      return { error: `Failed to fetch data: ${response.status} ${errorMessage}` };
-    }
-
-    // Parse and return the response data
-    const data = await response.json();
-    return { success: data };
+    return { success: response };
   } catch (error) {
-    // Handle fetch errors (network issues, etc.)
-    return { error: `An error occurred: ${(error as Error).message}` };
+    console.log(error);
+    return { error: error as string };
   }
-});
+};
+
+export const saveOrUpdatePropertyDb = async (property?: Property | null) => {
+  if (property === undefined) return;
+
+  const propertyToSave = sortObjectByKeys({
+    ...property,
+  });
+  const propertyInfo = await getProperty(property?.id.toString() as string);
+
+  if (!propertyInfo) {
+    await createProperty({
+      propertyId: property?.id.toString() as string,
+      detail: property,
+    });
+  } else {
+    const detail = sortObjectByKeys(propertyInfo.detail as Property);
+
+    // Only update the property if it has changed
+    if (JSON.stringify(detail) !== JSON.stringify(propertyToSave)) {
+      await updateProperty({
+        id: propertyInfo.id,
+        detail: { ...propertyToSave },
+        // detail: { ...detail, ...property },
+      });
+    }
+  }
+};

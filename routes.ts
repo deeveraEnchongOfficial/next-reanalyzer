@@ -7,7 +7,8 @@ export const publicRoutes = [
   "/", 
   "/auth/new-verification",
   "realestateapi",
-  "send-mail"
+  "send-mail",
+  "efffective-tax-rates"
 ];
 
 /**
@@ -16,7 +17,9 @@ export const publicRoutes = [
  */
 export const publicApis = [
   "realestateapi",
-  "send-mail"
+  "send-mail",
+  "logs",
+  "efffective-tax-rates"
 ];
 
 /**
@@ -43,7 +46,7 @@ export const apiAuthPrefix = "/api/auth";
  * The default redirect path after loggin in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/client";
+export const DEFAULT_LOGIN_REDIRECT = "/";
 
 /**
  * The default redirect path after logging out

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { logout } from "@/actions/logout";
 
 interface LogoutButtonProps {
@@ -8,10 +7,8 @@ interface LogoutButtonProps {
 }
 
 export const LogoutButton = ({ children }: LogoutButtonProps) => {
-  const router = useRouter();
   const onClick = () => {
     logout();
-    router.push("/");
   };
 
   return (

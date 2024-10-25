@@ -20,7 +20,7 @@ import CardWrapper from "@/components/auth/card-wrapper";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
-import { FormSucess } from "@/components/form-sucess";
+import { FormSuccess } from "@/components/form-sucess";
 import { register } from "@/actions/register";
 
 const RegisterForm = () => {
@@ -119,7 +119,7 @@ const RegisterForm = () => {
             />
           </div>
           <FormError message={error} />
-          <FormSucess message={sucess} />
+          <FormSuccess message={sucess} />
           <Button disabled={isPending} type="submit" className="w-full">
             Create an account
           </Button>
